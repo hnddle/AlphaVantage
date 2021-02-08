@@ -23,6 +23,7 @@ import threading
 keyFile = open('E:/Investing/Settings/apiKey.txt', 'r')
 api_key = keyFile.read()
 app = TimeSeries(key=api_key, output_format='pandas')
+update = False
 
 # holdings_df.to_csv('E:/Data/holdings.csv')
 # watchList_df.to_csv('E:/Data/watchList.csv')
@@ -32,7 +33,7 @@ watchList = pd.read_csv('E:/Investing/watchList.csv', index_col=0)
 # 마지막 업데이트 일자 확인
 updated = open('E:/Investing/Settings/updatedDate.txt', 'r')
 lastDate = updated.read()
-if lastDate == str(date.today()):
+if lastDate == str(date.today()) or update == False:
     renew = False
 else:
     renew = True
@@ -74,6 +75,7 @@ for i in range(len(watchList['Code'])):
     currentPrice = data['4. close'][0]
     totalPrice = currentPrice * quantity
     sumTotalPrice += totalPrice
+    sumTotalPrice = 142857
 
     ls.append(Code)
     ls.append(Name)
@@ -110,6 +112,4 @@ for index, row in result_df.iterrows():
 
 result_df.to_csv('E:/Investing/result.csv')
 
-# data['4. close'].plot()
-# plt.title('Daily Adjusted Times Series for the {0} stock (1 min)'.format(holdings['Code'][0]))
-# plt.show()
+
